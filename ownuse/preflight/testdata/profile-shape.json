@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "app": {
+    "name": "network-web",
+    "revision": "app-git-4f3a9c1"
+  },
+  "environment": {
+    "id": "staging-isolated",
+    "kind": "nonproduction",
+    "isolation": "dedicated nonproduction network with separate credentials"
+  },
+  "script": {
+    "ref": "network-web/perf/approved.js@v1.0.0",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "path": "/opt/app-supplied/approved.js"
+  },
+  "limits": {
+    "maxVUs": 5,
+    "maxDuration": "30s",
+    "maxIterations": 50,
+    "maxRPS": 2
+  },
+  "thresholds": [
+    {
+      "metric": "http_req_failed",
+      "expression": "rate<0.01"
+    },
+    {
+      "metric": "http_req_duration",
+      "expression": "p(95)<500"
+    }
+  ],
+  "target": {
+    "baseURL": "https://app.nonprod.example.test/check"
+  },
+  "network": {
+    "maxRedirects": 0,
+    "dnsPolicy": "onlyIPv4",
+    "allowedHosts": ["app.nonprod.example.test"],
+    "blockHostnamePatterns": ["other.example.test"],
+    "blacklistCIDRs": ["10.0.0.0/8"],
+    "acknowledgeHazards": true
+  },
+  "authorization": {
+    "explicit": true,
+    "reference": "CHG-2026-1107",
+    "phase": "end-of-development"
+  },
+  "artifactsDir": "/opt/app-supplied/artifacts"
+}

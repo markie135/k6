@@ -45,3 +45,7 @@
 
 /packaging/.env
 /packaging/*.gpg
+
+# Own-use profiles and run artifacts stay outside this public fork.
+/ownuse/profiles/
+/ownuse/artifacts/
